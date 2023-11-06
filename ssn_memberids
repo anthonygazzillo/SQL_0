@@ -1,0 +1,20 @@
+--return list of memberIds from ssn noting when ssn doesn't reurn a member ID
+DECLARE
+  TYPE SSNList IS TABLE OF VARCHAR2(9) INDEX BY PLS_INTEGER;
+  ssns SSNList := SSNList(
+    '175764279', '216780491', '217518048', '217763854', '219619151', 
+    '220614344', '220624305', '238334513', '238334513', '238334513', 
+    '238334513', '238334513', '238334513', '378908716', '416119526', 
+    '455777511', '516746325', '581758173', '589963780'
+  );
+  v_memberid geba.tblmember.memberid%TYPE;
+BEGIN
+  FOR i IN 1 .. ssns.COUNT LOOP
+    BEGIN
+      SELECT memberid INTO v_memberid
+      FROM geba.tblmember
+      WHERE ssn = ssns(i);
+      DBMS_OUTPUT.PUT_LINE('SSN: ' || ssns(i) || ' has member ID: ' || v_memberid);
+    END;
+  END LOOP;
+END;
